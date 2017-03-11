@@ -1,5 +1,6 @@
 #include "keymap_common.h"
-
+#include "command.h"
+#include "bootloader.h"
 
 // Default
 #ifdef KEYMAP_SECTION_ENABLE
@@ -88,4 +89,18 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
                     MACRO_NONE );
     }
     return MACRO_NONE;
+}
+
+bool command_extra(uint8_t code)
+{
+    switch (code) {
+        case KC_F1:
+            clear_keyboard();
+            print("\n\nJump to bootloader... ");
+            _delay_ms(1000);
+            bootloader_jump(); // not return
+            print("not supported.\n");
+            break;
+    }
+    return false;
 }
